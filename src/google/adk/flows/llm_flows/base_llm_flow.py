@@ -173,6 +173,15 @@ class BaseLlmFlow(ABC):
                   # cancel the tasks that belongs to the closed connection.
                   send_task.cancel()
                   await llm_connection.close()
+                  # transfer to the sub agent.
+                  transfer_to_agent = event.actions.transfer_to_agent
+                  if transfer_to_agent:
+                    agent_to_run = self._get_agent_to_run(
+                        invocation_context, transfer_to_agent
+                    )
+                    async with Aclosing(agent_to_run.run_live(invocation_context)) as agen:
+                      async for item in agen:
+                        yield item
                 if (
                     event.content
                     and event.content.parts
@@ -546,15 +555,6 @@ class BaseLlmFlow(ABC):
             )
         )
         yield final_event
-
-      transfer_to_agent = function_response_event.actions.transfer_to_agent
-      if transfer_to_agent:
-        agent_to_run = self._get_agent_to_run(
-            invocation_context, transfer_to_agent
-        )
-        async with Aclosing(agent_to_run.run_live(invocation_context)) as agen:
-          async for item in agen:
-            yield item
 
   async def _postprocess_run_processors_async(
       self, invocation_context: InvocationContext, llm_response: LlmResponse
