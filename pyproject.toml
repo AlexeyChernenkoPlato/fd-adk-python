@@ -2,8 +2,8 @@
 # Project metadata. Available keys are documented at:
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata
 
-name = "google-adk"
-description = "Agent Development Kit"
+name = "fd-adk"
+description = "Front Desk Agent Development Kit"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
@@ -60,10 +60,7 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-homepage = "https://google.github.io/adk-docs/"
-repository = "https://github.com/google/adk-python"
-changelog = "https://github.com/google/adk-python/blob/main/CHANGELOG.md"
-documentation = "https://google.github.io/adk-docs/"
+homepage = "https://github.com/AlexeyChernenkoPlato/fd-adk-python/"
 
 [project.scripts]
 adk = "google.adk.cli:main"
